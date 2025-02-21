@@ -1,0 +1,65 @@
+<!-- views/author/papers.ejs -->
+<%- include('../partials/header') %>
+
+    <div class="container mt-5">
+        <h1>Your Submitted Papers</h1>
+        <% if (papers && papers.length> 0) { %>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Paper Title</th>
+                        <th>Conference</th>
+                        <th>Status</th>
+                        <th>Submitted On</th>
+                        <th>Reviews</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% papers.forEach(paper=> { %>
+                        <tr>
+                            <td>
+                                <%= paper.title %>
+                            </td>
+                            <td>
+                                <%= paper.conference ? paper.conference.title : 'No conference assigned' %>
+                            </td>
+                            <td>
+                                <%= paper.status %>
+                            </td>
+                            <td>
+                                <%= paper.submissionDate.toDateString() %>
+                            </td>
+                            <td>
+                                <% if (paper.reviews && paper.reviews.length> 0) { %>
+                                    <ul>
+                                        <% paper.reviews.forEach(review=> { %>
+                                            <li><strong>Reviewer:</strong>
+                                                <%= review.reviewer.name %><br>
+                                                    <strong>Score:</strong>
+                                                    <%= review.score %><br>
+                                                        <strong>Comments:</strong>
+                                                        <%= review.comments %><br>
+                                                            <strong>Recommendation:</strong>
+                                                            <%= review.recommendation %>
+                                            </li>
+                                            <% }); %>
+                                    </ul>
+                                    <% } else { %>
+                                        No reviews yet
+                                        <% } %>
+                            </td>
+                            <td>
+                                <!-- View Paper -->
+                                <a href="/author/papers/<%= paper._id %>" class="btn btn-sm btn-info">View Paper</a>
+                            </td>
+                        </tr>
+                        <% }); %>
+                </tbody>
+            </table>
+            <% } else { %>
+                <p>No papers found.</p>
+                <% } %>
+    </div>
+
+    <%- include('../partials/footer') %>

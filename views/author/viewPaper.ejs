@@ -1,0 +1,51 @@
+<!-- views/author/viewPaper.ejs -->
+<%- include('../partials/header') %>
+
+    <div class="container mt-5">
+        <h1>View Paper</h1>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <%= paper.title %>
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted">Conference: <%= paper.conference ? paper.conference.title
+                        : 'No conference assigned' %>
+                </h6>
+                <p class="card-text">
+                    <%= paper.abstract %>
+                </p>
+                <p class="card-text">Status: <%= paper.status %>
+                </p>
+                <p class="card-text">Submitted On: <%= paper.submissionDate.toDateString() %>
+                </p>
+                <a href="/uploads/papers/<%= paper.file.split('/').pop() %>" class="btn btn-primary" download>Download
+                    Paper</a>
+            </div>
+        </div>
+
+        <h3 class="mt-4">Reviews</h3>
+        <% if (paper.reviews && paper.reviews.length> 0) { %>
+            <% paper.reviews.forEach(review=> { %>
+                <div class="card mt-2">
+                    <div class="card-body">
+                        <h5 class="card-title">Reviewer: <%= review.reviewer.name %>
+                        </h5>
+                        <p class="card-text">Score: <%= review.score %>
+                        </p>
+                        <p class="card-text">Recommendation: <%= review.recommendation %>
+                        </p>
+                        <p class="card-text">
+                            <%= review.comments %>
+                        </p>
+                        <p class="card-text"><small>Reviewed on <%= review.date.toDateString() %></small></p>
+                    </div>
+                </div>
+                <% }); %>
+                    <% } else { %>
+                        <p>No reviews found.</p>
+                        <% } %>
+
+                            <a href="/author/papers" class="btn btn-secondary mt-3">Back to Papers</a>
+    </div>
+
+    <%- include('../partials/footer') %>

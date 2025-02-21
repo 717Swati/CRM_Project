@@ -1,0 +1,109 @@
+<!-- views/admin/papers.ejs -->
+<%- include('../partials/header') %>
+
+    <div class="container mt-5">
+        <h1>Manage Submitted Papers</h1>
+        <% if (papers && papers.length> 0) { %>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Conference</th>
+                        <th>Paper Title</th>
+                        <th>Author</th>
+                        <th>Status</th>
+
+                        <th>Reviewers Assigned</th>
+                        <th>Reviews</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% papers.forEach(paper=> { %>
+                        <tr>
+                            <td>
+                                <%= paper.conference ? paper.conference.title : 'No conference assigned' %>
+                            </td>
+                            <td>
+                                <%= paper.title %>
+                            </td>
+                            <td>
+                                <%= paper.author.name %>
+                            </td>
+
+                            <td>
+                                <%= paper.status %>
+                            </td>
+                            <td>
+                                <% if (paper.reviewers && paper.reviewers.length> 0) { %>
+                                    <ul>
+                                        <% paper.reviewers.forEach(reviewerId=> { %>
+                                            <li>
+                                                <%= reviewersMap.get(reviewerId.toString()) %>
+                                            </li>
+                                            <% }); %>
+                                    </ul>
+                                    <% } else { %>
+                                        No reviewers assigned
+                                        <% } %>
+                            </td>
+                            <td>
+                                <% if (paper.reviews && paper.reviews.length> 0) { %>
+                                    <ul>
+                                        <% paper.reviews.forEach(review=> { %>
+                                            <li><strong>Reviewer:</strong>
+                                                <%= review.reviewer.name %><br>
+                                                    <strong>Score:</strong>
+                                                    <%= review.score %><br>
+                                                        <strong>Comments:</strong>
+                                                        <%= review.comments %><br>
+                                                            <strong>Recommendation:</strong>
+                                                            <%= review.recommendation %>
+                                            </li>
+                                            <% }); %>
+                                    </ul>
+                                    <% } else { %>
+                                        No reviews yet
+                                        <% } %>
+                            </td>
+                            <td>
+                                <!-- Assign Reviewer -->
+                                <form action="/admin/papers/<%= paper._id %>/assign" method="POST">
+                                    <div class="form-group">
+                                        <select name="reviewerId" class="form-control" required>
+                                            <option value="">Select Reviewer</option>
+                                            <% reviewers.forEach(reviewer=> { %>
+                                                <option value="<%= reviewer._id %>">
+                                                    <%= reviewer.name %>
+                                                </option>
+                                                <% }); %>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-sm btn-info">Assign Reviewer</button>
+                                </form>
+
+                                <!-- Make Decision -->
+                                <form action="/admin/papers/<%= paper._id %>/decision" method="POST" class="mt-2">
+                                    <div class="form-group">
+                                        <select name="decision" class="form-control" required>
+                                            <option value="">Select Decision</option>
+                                            <option value="Accepted">Accept</option>
+                                            <option value="Rejected">Reject</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-sm btn-success">Submit Decision</button>
+                                </form>
+
+                                <!-- Download Paper -->
+                                <a href="/admin/papers/<%= paper._id %>/download"
+                                    class="btn btn-sm btn-secondary mt-2">Download Paper</a>
+                            </td>
+                        </tr>
+                        <% }); %>
+                </tbody>
+            </table>
+            <% } else { %>
+                <p>No papers found.</p>
+                <% } %>
+    </div>
+
+    <%- include('../partials/footer') %>

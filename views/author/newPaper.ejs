@@ -1,0 +1,38 @@
+<!-- views/author/newPaper.ejs -->
+<%- include('../partials/header') %>
+
+    <div class="container">
+        <h1>Submit a New Paper</h1>
+        <form action="/author/papers" method="POST" enctype="multipart/form-data">
+            <!-- Paper Title -->
+            <div class="form-group">
+                <label for="title">Paper Title</label>
+                <input type="text" name="title" class="form-control" required />
+            </div>
+            <!-- Abstract -->
+            <div class="form-group">
+                <label for="abstract">Abstract</label>
+                <textarea name="abstract" class="form-control" rows="5" required></textarea>
+            </div>
+            <!-- Conference Selection -->
+            <div class="form-group">
+                <label for="conference">Conference</label>
+                <select name="conference" class="form-control" required>
+                    <% conferences.forEach(conference=> { %>
+                        <option value="<%= conference._id %>">
+                            <%= conference.title %>
+                        </option>
+                        <% }) %>
+                </select>
+            </div>
+            <!-- File Upload -->
+            <div class="form-group">
+                <label for="paper">Upload Paper (PDF)</label>
+                <input type="file" name="paper" class="form-control-file" accept="application/pdf" required />
+            </div>
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">Submit Paper</button>
+        </form>
+    </div>
+
+    <%- include('../partials/footer') %>

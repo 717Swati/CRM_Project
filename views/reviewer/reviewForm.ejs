@@ -1,0 +1,39 @@
+<%- include('../partials/header') %>
+
+    <div class="container mt-5">
+        <h1>Review Paper</h1>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <%= paper.title %>
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted">Conference: <%= paper.conference.title %>
+                </h6>
+                <p class="card-text">
+                    <%= paper.abstract %>
+                </p>
+                <a href="/uploads/papers/<%= paper.file.split('/').pop() %>" class="btn btn-primary" download>Download
+                    Paper</a>
+            </div>
+        </div>
+        <form action="/reviewer/papers/<%= paper._id %>/review" method="POST" class="mt-3">
+            <div class="form-group">
+                <label for="comments">Comments</label>
+                <textarea name="comments" class="form-control" rows="5" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="score">Score</label>
+                <input type="number" name="score" class="form-control" min="1" max="10" required />
+            </div>
+            <div class="form-group">
+                <label for="recommendation">Recommendation</label>
+                <select name="recommendation" class="form-control" required>
+                    <option value="Accept">Accept</option>
+                    <option value="Reject">Reject</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Review</button>
+        </form>
+    </div>
+
+    <%- include('../partials/footer') %>

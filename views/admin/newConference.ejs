@@ -1,0 +1,27 @@
+<!-- views/admin/newConference.ejs -->
+<%- include('../partials/header') %>
+
+    <div class="container">
+        <h1>Create New Conference</h1>
+        <form action="/admin/conferences" method="POST">
+            <!-- Title -->
+            <div class="form-group">
+                <label for="title">Conference Title</label>
+                <input type="text" name="title" class="form-control" required />
+            </div>
+            <!-- Description -->
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea name="description" class="form-control" rows="5"></textarea>
+            </div>
+            <!-- Submission Deadline -->
+            <div class="form-group">
+                <label for="submissionDeadline">Submission Deadline</label>
+                <input type="date" name="submissionDeadline" class="form-control" required />
+            </div>
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">Create Conference</button>
+        </form>
+    </div>
+
+    <%- include('../partials/footer') %>

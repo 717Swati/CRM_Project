@@ -1,0 +1,42 @@
+<!-- views/author/dashboard.ejs -->
+<%- include('../partials/header') %>
+
+    <div class="container">
+        <h1>Author Dashboard</h1>
+        <h2>Your Papers</h2>
+        <a href="/author/papers/new" class="btn btn-success mb-3">Submit New Paper</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Paper Title</th>
+                    <th>Conference</th>
+                    <th>Status</th>
+                    <th>Submitted On</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% papers.forEach(paper=> { %>
+                    <tr>
+                        <td>
+                            <%= paper.title %>
+                        </td>
+                        <td>
+                            <%= paper.conference ? paper.conference.title : 'No conference assigned' %>
+                        </td>
+                        <td>
+                            <%= paper.status %>
+                        </td>
+                        <td>
+                            <%= paper.submissionDate.toDateString() %>
+                        </td>
+                        <td>
+                            <a href="/author/papers/<%= paper._id %>" class="btn btn-sm btn-info">View Details</a>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+    <%- include('../partials/footer') %>

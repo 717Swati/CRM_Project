@@ -1,0 +1,46 @@
+<!-- views/reviewer/dashboard.ejs -->
+<%- include('../partials/header') %>
+
+    <div class="container mt-5">
+        <h1>Reviewer Dashboard</h1>
+        <% if (papers && papers.length> 0) { %>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Paper Title</th>
+                        <th>Author</th>
+                        <th>Conference</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% papers.forEach(paper=> { %>
+                        <tr>
+                            <td>
+                                <%= paper.title %>
+                            </td>
+                            <td>
+                                <%= paper.author.name %>
+                            </td>
+                            <td>
+                                <%= paper.conference ? paper.conference.title : 'No conference assigned' %>
+                            </td>
+                            <td>
+                                <%= paper.status %>
+                            </td>
+                            <td>
+                                <!-- Link to review the paper -->
+                                <a href="/reviewer/papers/<%= paper._id %>/review"
+                                    class="btn btn-sm btn-primary">Review</a>
+                            </td>
+                        </tr>
+                        <% }); %>
+                </tbody>
+            </table>
+            <% } else { %>
+                <p>No papers found.</p>
+                <% } %>
+    </div>
+
+    <%- include('../partials/footer') %>

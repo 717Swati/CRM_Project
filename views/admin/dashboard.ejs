@@ -1,0 +1,49 @@
+<!-- views/admin/dashboard.ejs -->
+<%- include('../partials/header') %>
+
+    <div class="container mt-5">
+        <h1 class="mb-4">Admin Dashboard</h1>
+
+        <!-- Conferences Section -->
+        <h2>Conferences</h2>
+        <a href="/admin/conferences/new" class="btn btn-success mb-3">Create New Conference</a>
+        <% if (conferences.length> 0) { %>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Submission Deadline</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% conferences.forEach(conference=> { %>
+                        <tr>
+                            <td>
+                                <%= conference.title %>
+                            </td>
+                            <td>
+                                <%= conference.submissionDeadline.toDateString() %>
+                            </td>
+                            <td>
+                                <a href="/admin/conferences/<%= conference._id %>/edit"
+                                    class="btn btn-sm btn-warning">Edit</a>
+                                <form action="/admin/conferences/<%= conference._id %>?_method=DELETE" method="POST"
+                                    style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+            <% } else { %>
+                <p>No conferences found.</p>
+                <% } %>
+
+                    <!-- Papers Section -->
+                    <h2 class="mt-5">Submitted Papers</h2>
+                    <a href="/admin/papers" class="btn btn-primary mb-3">Manage Papers</a>
+    </div>
+
+    <%- include('../partials/footer') %>
